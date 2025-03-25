@@ -1,3 +1,24 @@
+# Product Backlog
+
+This backlog contains all core tasks and requirements for building the Inventory Manager app.
+
+## Setup Tasks
+- [ ] Create and fork GitHub repo
+- [ ] Set up Node.js environment
+- [ ] Set up MongoDB connection
+- [ ] Install Mongoose
+- [ ] Create basic file structure and schema
+
+## Features
+- [ ] Add Items (name, quantity, price, category)
+- [ ] View Stock & Search
+- [ ] Update & Manage Inventory
+- [ ] Low Stock Notifications
+
+##  Testing Plan Tasks
+- [ ] Plan and write unit tests
+- [ ] Add integration tests for DB + backend
+- [ ] Add acceptance tests for user flows
 # Meeting & Milestone Plan
 
 ## Team Meetings
