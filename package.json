@@ -1,0 +1,14 @@
+{
+  "name": "inventory-manager",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "npm run --prefix client start",
+    "server": "npm run --prefix server start",
+    "build": "npm run --prefix client build"
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "react": "^19.1.0"
+  }
+}
