@@ -88,9 +88,14 @@ function App() {
 
     if (!Array.isArray(items)) return <div>No items available yet. Try importing a CSV.</div>;
 
-    const filteredItems = items.filter(i =>
-        i.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredItems = items.filter(i => {
+        const query = search.toLowerCase();
+        return (
+            i.name.toLowerCase().includes(query) ||
+            i.category.toLowerCase().includes(query) ||
+            (i.tags || []).some(tag => tag.toLowerCase().includes(query))
+        );
+    });
 
     const toggleChart = id => {
         setVisibleChartId(prev => (prev === id ? null : id));
