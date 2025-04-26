@@ -47,7 +47,7 @@ function HomePage() {
         setSuccessMessage('Item updated successfully!');
       } else {
         await axios.post('/api/items', payload);
-        setSuccessMessage('Item added successfully!');
+        setSuccessMessage('Item has been added successfully!');
       }
       setForm({ name: '', quantity: '', price: '', category: '', tags: '' });
       setTagCount(0);
@@ -69,7 +69,8 @@ function HomePage() {
         <input name="quantity" type="number" placeholder="Quantity" value={form.quantity} onChange={handleChange} required />
         <input name="price" type="number" placeholder="Price" value={form.price} onChange={handleChange} required />
         <select name="category" value={form.category} onChange={handleChange} required>
-          <option value="">Select Category</option>
+    
+          <option value="">Select Category</option> 
           <option value="Food">Food</option>
           <option value="Shoes">Shoes</option>
           <option value="Stationery">Stationery</option>
@@ -87,5 +88,7 @@ function HomePage() {
     </main>
   );
 }
+
+// Small edit by Priyanka for toggle feature PR
 
 export default HomePage;

@@ -5,7 +5,8 @@ import './styles.css';
 function ItemListPage() {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => 
+    {
     axios.get('/api/items')
       .then(res => {
         setItems(Array.isArray(res.data) ? res.data : []);

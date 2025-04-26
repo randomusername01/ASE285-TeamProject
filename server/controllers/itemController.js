@@ -14,7 +14,7 @@ exports.getItems = async (req, res) => {
 
 exports.createItem = async (req, res) => {
   try {
-    console.log("🚀 Received form data:", req.body);
+    console.log("Received form data:", req.body);
 
     const { name, quantity, price, category, tags = [] } = req.body;
 
@@ -115,5 +115,5 @@ exports.importCSV = async (req, res) => {
   } catch (err) {
     console.error("❌ Error in importCSV:", err);
     res.status(500).json({ message: 'Server error during CSV import' });
-  }
+  } //making changes
 };

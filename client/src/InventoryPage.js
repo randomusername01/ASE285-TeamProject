@@ -125,7 +125,7 @@ function InventoryPage() {
       />
 
       <div className="category-filter">
-        <label htmlFor="category">Sort by Category:</label>
+        <label htmlFor="category">Sort by category:</label>
         <select
           id="category"
           value={selectedCategory}

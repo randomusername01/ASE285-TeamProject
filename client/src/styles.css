@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1f1c2c, #928dab); /* Dark gradient */
+  background: linear-gradient(135deg, #1f1c2c, #a6a0c4); 
   color: #e0e0e0;
   padding: 0;
   margin: 0;
@@ -11,16 +11,16 @@ body {
 }
 
 .light {
-  background: linear-gradient(135deg, #f6f8fa, #cfd9df); /* Light gradient */
+  background: linear-gradient(135deg, #f6f8fa, #cfd9df); 
   color: #1a1a1a;
 }
 
-/* Navbar */
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #6c63ff;
+  background: #6c64f8;
   padding: 1rem 2rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 0 0 15px 15px;
