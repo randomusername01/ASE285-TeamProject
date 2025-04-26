@@ -11,18 +11,28 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 
-// Routes
 app.use('/api/items', require('./routes/itemRoutes'));
 
-// Import Mongoose model
 const Item = require('./models/Item');
 
-// Search route (Preston's feature)
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+
+  const emails = process.env.LOGIN_EMAILS.split(',');
+  const passwords = process.env.LOGIN_PASSWORDS.split(',');
+
+  const index = emails.findIndex((e) => e.trim() === email);
+  if (index !== -1 && passwords[index].trim() === password) {
+    return res.json({ success: true });
+  } else {
+    return res.status(401).json({ success: false, message: 'Invalid credentials' });
+  }
+});
+
 app.get('/search', async (req, res) => {
   const query = req.query.q;
   try {
@@ -39,7 +49,15 @@ app.get('/search', async (req, res) => {
   }
 });
 
-// Static frontend serving for production
+const sentFilePath = path.join(__dirname, './emailNotice.json');
+let sentItems = [];
+try {
+  sentItems = JSON.parse(fs.readFileSync(sentFilePath));
+} catch (err) {
+  console.error('Could not read emailNotice.json', err);
+}
+
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   app.get('*', (req, res) => {
@@ -47,8 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Connect to MongoDB and start server
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
