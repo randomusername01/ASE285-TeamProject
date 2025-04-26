@@ -113,7 +113,7 @@ exports.importCSV = async (req, res) => {
         });
     });
   } catch (err) {
-    console.error("❌ Error in importCSV:", err);
+    console.error("Error in importCSV:", err);
     res.status(500).json({ message: 'Server error during CSV import' });
   } //making changes
 };

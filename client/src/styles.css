@@ -44,12 +44,12 @@ body {
   text-decoration: underline;
 }
 
-/* Container */
+
 .container {
   padding: 2rem;
 }
 
-/* Search Bar */
+
 .search {
   width: 100%;
   padding: 12px;
@@ -67,7 +67,7 @@ body {
   color: #1a1a1a;
 }
 
-/* Forms */
+
 .form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -254,7 +254,7 @@ button:hover {
 }
 
 .actions button {
-  background-color: #415885; /* same rich navy blue as navbar */
+  background-color: #415885; 
   color: white;
   border: none;
   padding: 6px 12px;
