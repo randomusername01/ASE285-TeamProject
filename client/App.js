@@ -6,42 +6,11 @@ import './styles.css';
 
 function App() {
 
-//Login Credintials and setting up form
-    const [user, setUser] = useState(null);
-    const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-    const [loginError, setLoginError] = useState('');
-//End of New Credentials
-
     const [items, setItems] = useState([]);
     const [form, setForm] = useState({ name: '', quantity: '', price: '', category: '', tags: '' });
     const [editingId, setEditingId] = useState(null);
     const [search, setSearch] = useState('');
     const [visibleChartId, setVisibleChartId] = useState(null);
-
-//Login System
-    const handleLoginChange = e =>
-        setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
-
-    const handleLoginSubmit = async e => {
-        e.preventDefault();
-    
-        try {
-            const response = await axios.post('/api/login', {
-                email: loginForm.email,
-                password: loginForm.password
-            });
-    
-            if (response.data.success) {
-                setUser({ email: loginForm.email });
-                setLoginError('');
-            } else {
-                setLoginError('Login failed. Please try again.');
-            }
-        } catch (err) {
-            setLoginError('Invalid email or password.');
-        }
-    };
-// Login System End
 
     const fetchItems = async () => {
         try {
@@ -69,7 +38,7 @@ function App() {
     const handleSubmit = async e => {
         e.preventDefault();
         const tagsArray = form.tags.split(';').map(tag => tag.trim()).filter(Boolean);
-        const payload = { ...form, tags: tagsArray, userEmail: user?.email }; //Added for Email Tracking
+        const payload = { ...form, tags: tagsArray, userEmail: user?.email }; 
       
           if (editingId) {
             await axios.put(`/api/items/${editingId}`, payload);
@@ -93,7 +62,7 @@ function App() {
     };
 
     const handleDelete = async id => {
-        await axios.delete(`/api/items/${id}`, { data: { userEmail: user?.email } }); //Added email tracking
+        await axios.delete(`/api/items/${id}`, { data: { userEmail: user?.email } });
         fetchItems();
       };
       
@@ -128,21 +97,6 @@ function App() {
     const toggleChart = id => {
         setVisibleChartId(prev => (prev === id ? null : id));
     };
-
-    //Checks User entry and forces login page to open
-    if (!user) {
-        return (
-            <div className="container">
-                <h1>Login to Inventory Manager</h1>
-                <form className="form" onSubmit={handleLoginSubmit}>
-                    <input type="email" name="email" placeholder="Email" value={loginForm.email} onChange={handleLoginChange} required />
-                    <input type="password" name="password" placeholder="Password" value={loginForm.password} onChange={handleLoginChange} required />
-                    <button type="submit">Login</button>
-                </form>
-                {loginError && <p className="error">{loginError}</p>}
-            </div>
-        );
-    }
 
     return (
         <div className="container">
