@@ -49,22 +49,6 @@ app.get('/search', async (req, res) => {
   }
 });
 
-const sentFilePath = path.join(__dirname, './emailNotice.json');
-let sentItems = [];
-try {
-  sentItems = JSON.parse(fs.readFileSync(sentFilePath));
-} catch (err) {
-  console.error('Could not read emailNotice.json', err);
-}
-
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
-}
-
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
