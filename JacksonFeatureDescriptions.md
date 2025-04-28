@@ -5,8 +5,8 @@ For the webpage, you will want to use logins to create authorized users that can
 By use of an .env file, we can create a more secure webpage using our login feature.
 1. On an .env file, fill in the information of LOGIN_EMAILS and LOGIN_PASSWORDS
    - Example:
-   - LOGIN_EMAILS = admin@example.com,manager1@gmail.com,dev3@test.net
-   - LOGIN_PASSWORDS = 123,456,789
+   - `LOGIN_EMAILS = admin@example.com,manager1@gmail.com,dev3@test.net`
+   - `LOGIN_PASSWORDS = 123,456,789`
    - Note: The order of the passwords relate to the order of emails (email: admin@example.com; password: 123)
 2. Once entered the login info into the .env, on the webpage you will be met with a login screen.
 3. The server uses an api post to gather the email and password entered once you click submit.
