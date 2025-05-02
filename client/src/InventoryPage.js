@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 function InventoryPage() {
   const [items, setItems] = useState([]);
@@ -10,6 +12,7 @@ function InventoryPage() {
   const [form, setForm] = useState({ name: '', quantity: '', price: '', category: '', tags: '' });
   const [editingId, setEditingId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [visibleChartId, setVisibleChartId] = useState(null);
 
   const fetchItems = () => {
     axios.get('/api/items')
@@ -78,11 +81,40 @@ function InventoryPage() {
       fetchItems();
       setForm({ name: '', quantity: '', price: '', category: '', tags: '' });
       setEditingId(null);
-
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('Error submitting form:', err);
     }
+  };
+
+  const handleExport = () => {
+    const csvData = items.map(({ _id, ...rest }) => ({ ...rest, tags: rest.tags.join(';') }));
+    const blob = new Blob([
+      Object.keys(csvData[0] || {}).join(',') + '\n' +
+      csvData.map(row => Object.values(row).join(',')).join('\n')
+    ], { type: 'text/csv' });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'inventory.csv';
+    a.click();
+  };
+
+  const handleImport = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      await axios.post('/api/items/import', formData);
+      fetchItems();
+    } catch (err) {
+      console.error('Import failed:', err);
+    }
+  };
+
+  const toggleChart = id => {
+    setVisibleChartId(prev => (prev === id ? null : id));
   };
 
   const categories = ['All', ...new Set(items.map(item => item.category))];
@@ -95,9 +127,7 @@ function InventoryPage() {
     <main className="container">
       <h2>My Inventory</h2>
 
-      {successMessage && (
-        <div className="success-message">{successMessage}</div>
-      )}
+      {successMessage && <div className="success-message">{successMessage}</div>}
 
       {deletedItem && (
         <div className="undo-banner">
@@ -114,6 +144,14 @@ function InventoryPage() {
         <input name="tags" placeholder="Tags (e.g. tech;blue)" value={form.tags} onChange={handleChange} />
         <button type="submit">{editingId ? 'Update Item' : 'Add Item'}</button>
       </form>
+
+      <div className="controls">
+        <button onClick={handleExport}>Export CSV</button>
+        <label className="import-label">
+          Import CSV
+          <input type="file" accept=".csv" onChange={handleImport} hidden />
+        </label>
+      </div>
 
       <input
         className="search"
@@ -146,7 +184,26 @@ function InventoryPage() {
             <div className="actions">
               <button onClick={() => handleEdit(item)}>✏️</button>
               <button onClick={() => handleDelete(item._id)}>🗑️</button>
+              <button onClick={() => toggleChart(item._id)}>
+                {visibleChartId === item._id ? 'Hide Graph' : 'View Graph'}
+              </button>
             </div>
+
+            {visibleChartId === item._id && (
+              <Bar
+                data={{
+                  labels: [
+                    ...(item.history || []).map(h => new Date(h.timestamp).toLocaleString()),
+                    'Now'
+                  ],
+                  datasets: [{
+                    label: `${item.name} Quantity Over Time`,
+                    data: [...(item.history || []).map(h => h.quantity), item.quantity],
+                    backgroundColor: 'rgba(75,192,192,0.6)'
+                  }]
+                }}
+              />
+            )}
           </li>
         ))}
       </ul>
