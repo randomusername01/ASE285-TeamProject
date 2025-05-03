@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import { useUser } from './UserContext';
 import 'chart.js/auto';
 
 function InventoryPage() {
+  const { user } = useUser();
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -31,7 +33,9 @@ function InventoryPage() {
 
     const timeout = setTimeout(async () => {
       try {
-        await axios.delete(`/api/items/${id}`);
+        await axios.delete(`/api/items/${id}`, {
+          data: { userEmail: user?.email }
+        });
         setDeletedItem(null);
       } catch (err) {
         console.error('Permanent delete failed:', err);
@@ -67,7 +71,7 @@ function InventoryPage() {
   const handleSubmit = async e => {
     e.preventDefault();
     const tagsArray = form.tags.split(';').map(tag => tag.trim()).filter(Boolean);
-    const payload = { ...form, tags: tagsArray };
+    const payload = { ...form, tags: tagsArray, userEmail: user?.email };
 
     try {
       if (editingId) {
