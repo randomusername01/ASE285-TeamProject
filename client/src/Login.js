@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useUser } from './UserContext';
 import './styles.css';
 
-function Login({ setUser }) {
-
+function Login() {
+  const { setUser } = useUser();
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [loginError, setLoginError] = useState('');
 
