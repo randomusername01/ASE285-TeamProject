@@ -4,7 +4,7 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const path = require('path');
 const { logChange } = require('../logger');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -61,7 +61,7 @@ exports.updateItem = async (req, res) => {
 
     const updatedItem = await item.save();
 
-    if (parseInt(item.quantity) === 0 && req.body.userEmail) {
+    if (parseInt(updatedItem.quantity) === 0 && req.body.userEmail) {
       console.log('Sending email to:', req.body.userEmail);
 
       const emailPayload = {
