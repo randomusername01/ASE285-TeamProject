@@ -97,7 +97,20 @@ Restrict access to inventory management features using email and password authen
 - [ ] Redirect unauthorized users to login page
 - [ ] Store session token during active session
 
----
+## Feature: Activity Logging (Preston)
+
+**Epic:**  
+Track and record user activity (add, update, delete) for inventory items to maintain accountability and traceability.
+
+**User Stories:**
+- As a manager, I want to view who made changes to the inventory so that I can audit activity when needed.
+
+**Requirements:**
+- [ ] Log item creation, updates, and deletions with timestamp and user email
+- [ ] Store logs in a dedicated `log.txt` file or database collection
+- [ ] Include operation type (Add, Update, Delete) in each log entry
+- [ ] Format log entries consistently for readability
+
 
 ## Feature: Category Breakdown Chart (Priyanka)
 

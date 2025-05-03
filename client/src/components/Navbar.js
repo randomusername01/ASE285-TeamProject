@@ -9,7 +9,6 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-title"> Inventory Manager</div>
       <div className="navbar-links">
-        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
         <Link to="/dashboard" className={location.pathname ==='/dashboard' ? 'active' : ''}>Dashboard</Link>
         <Link to="/inventory" className={location.pathname === '/inventory' ? 'active' : ''}>My Inventory</Link>
       </div>

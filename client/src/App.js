@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom'; // Add Navigate
 import HomePage from './HomePage';
 import DashboardPage from './DashboardPage';
 import InventoryPage from './InventoryPage';
@@ -13,7 +13,7 @@ function App() {
     <>
       <Navbar user={user} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/inventory" replace />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
       </Routes>
