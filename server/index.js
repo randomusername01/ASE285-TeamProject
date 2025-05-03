@@ -49,10 +49,30 @@ app.get('/search', async (req, res) => {
   }
 });
 
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('MongoDB connected');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}).catch(err => console.log(err));
+const startServer = async () => {
+  try {
+    const mongoURI =
+      process.env.MONGODB_URI ||
+      process.env.MONGO_URI ||
+      (process.env.NODE_ENV === 'test' ? 'mongodb://localhost:27017/inventory_test' : undefined);
+
+    if (!mongoURI) {
+      throw new Error('MongoDB URI is undefined');
+    }
+
+    await mongoose.connect(mongoURI);
+    console.log('MongoDB connected');
+
+    if (require.main === module) {
+      app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    }
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+};
+
+
+startServer();
+
+module.exports = app;
+
